@@ -41,7 +41,7 @@ public class OrderMaster {
     private Integer orderStatus = OrderStatusEnum.NEW.getCode();
 
     /**
-     * The status of order, unpaid by default.
+     * The status of payment, unpaid by default.
      */
     private Integer payStatus = PayStatusEnum.WAIT.getCode();
 

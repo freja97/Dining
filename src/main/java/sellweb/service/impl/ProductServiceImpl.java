@@ -1,7 +1,11 @@
 package sellweb.service.impl;
 
+import javax.transaction.Transactional;
 import sellweb.dataobject.ProductInfo;
+import sellweb.dto.CartDTO;
 import sellweb.enums.ProductStatusEnum;
+import sellweb.enums.ResultEnum;
+import sellweb.exception.SellException;
 import sellweb.repository.ProductInfoRepository;
 import sellweb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +40,35 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductInfo save(ProductInfo productInfo) {
         return repository.save(productInfo);
+    }
+
+    @Override
+    @Transactional
+    public void increaseStock(List<CartDTO> cartDTOList) {
+        for (CartDTO cartDTO : cartDTOList) {
+            ProductInfo productInfo = repository.findOne(cartDTO.getProductId());
+            if (productInfo == null) {
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            }
+            productInfo.setProductStock(productInfo.getProductStock() + cartDTO.getProductQuantity());
+            repository.save(productInfo);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void decreaseStock(List<CartDTO> cartDTOList) {
+        for (CartDTO cartDTO : cartDTOList) {
+            ProductInfo productInfo = repository.findOne(cartDTO.getProductId());
+            if (productInfo == null) {
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            }
+            Integer result = productInfo.getProductStock() - cartDTO.getProductQuantity();
+            if (result < 0) {
+                throw new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
+            }
+            productInfo.setProductStock(result);
+            repository.save(productInfo);
+        }
     }
 }
