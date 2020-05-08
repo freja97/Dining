@@ -34,7 +34,11 @@
                     <td>${orderDTO.getPayStatusEnum().message}</td>
                     <td>${orderDTO.createTime}</td>
                     <td>Details</td>
-                    <td>Cancel</td>
+                    <td>
+                        <#if orderDTO.getOrderStatusEnum().message == "New">
+                            <a href="/sell/seller/order/cancel?orderId=${orderDTO.orderId}">Cancel</a>
+                        </#if>
+                    </td>
                 </tr>
                 </#list>
                 </tbody>
