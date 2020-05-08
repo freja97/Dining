@@ -28,6 +28,7 @@ public enum ResultEnum {
     ORDER_OWNER_ERROR(19, "This order and buyer don't match"),
 
     ORDER_CANCEL_SUCCESS(22, "Canceled successfully"),
+    ORDER_FINISH_SUCCESS(23, "Finished successfully"),
     ;
 
     private Integer code;
