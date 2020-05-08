@@ -3,10 +3,10 @@ package sellweb.enums;
 import lombok.Getter;
 
 @Getter
-public enum PayStatusEnum {
+public enum PayStatusEnum implements CodeEnum{
 
-    WAIT(0, "Wait for pay"),
-    SUCCESS(1, "paid successfully")
+    WAIT(0, "Unpaid"),
+    SUCCESS(1, "Paid")
     ;
 
     private Integer code;

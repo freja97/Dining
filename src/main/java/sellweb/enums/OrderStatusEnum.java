@@ -3,10 +3,10 @@ package sellweb.enums;
 import lombok.Getter;
 
 @Getter
-public enum OrderStatusEnum {
-    NEW(0, "new order"),
-    FINISHED(1, "order completed"),
-    CANCEL(2, "order canceled"),
+public enum OrderStatusEnum implements CodeEnum{
+    NEW(0, "New"),
+    FINISHED(1, "Completed"),
+    CANCEL(2, "Canceled"),
     ;
 
     private Integer code;
