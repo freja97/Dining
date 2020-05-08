@@ -1,11 +1,13 @@
 package sellweb.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import sellweb.dataobject.OrderDetail;
+import sellweb.utils.serializer.DateToLongSerializer;
 
 @Data
 public class OrderDTO {
@@ -32,8 +34,10 @@ public class OrderDTO {
      */
     private Integer payStatus;
 
+    @JsonSerialize(using = DateToLongSerializer.class)
     private Date createTime;
 
+    @JsonSerialize(using = DateToLongSerializer.class)
     private Date updateTime;
 
     List<OrderDetail> orderDetailList;

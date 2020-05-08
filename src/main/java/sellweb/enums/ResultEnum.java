@@ -5,6 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ResultEnum {
 
+    PARAM_ERROR(1, "wrong params"),
+
     PRODUCT_NOT_EXIST(10, "The product doesn't exist"),
 
     PRODUCT_STOCK_ERROR(11, "The stock of product is incorrect"),
@@ -19,7 +21,11 @@ public enum ResultEnum {
 
     ORDER_DETAIL_EMPTY(16, "The order detail is empty"),
 
-    ORDER_PAY_STATUS_ERROR(17, ""),
+    ORDER_PAY_STATUS_ERROR(17, "The payment status is incorrect"),
+
+    CART_EMPTY(18, "Shopping cart is empty"),
+
+    ORDER_OWNER_ERROR(19, "This order and buyer don't match");
     ;
 
     private Integer code;
