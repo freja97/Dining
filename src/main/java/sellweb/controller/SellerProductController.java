@@ -1,7 +1,11 @@
 package sellweb.controller;
 
+import java.util.List;
+import org.springframework.util.StringUtils;
+import sellweb.dataobject.ProductCategory;
 import sellweb.dataobject.ProductInfo;
 import sellweb.exception.SellException;
+import sellweb.service.CategoryService;
 import sellweb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +24,9 @@ public class SellerProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * The list of products
@@ -60,6 +67,7 @@ public class SellerProductController {
         map.put("url", "/sell/seller/product/list");
         return new ModelAndView("common/success", map);
     }
+
     /**
      * Make a product off sale
      * @param productId the id of the product
@@ -79,5 +87,20 @@ public class SellerProductController {
 
         map.put("url", "/sell/seller/product/list");
         return new ModelAndView("common/success", map);
+    }
+
+    @GetMapping("/index")
+    public ModelAndView index(@RequestParam(value = "productId", required = false) String productId,
+        Map<String, Object> map) {
+        if (!StringUtils.isEmpty(productId)) {
+            ProductInfo productInfo = productService.findOne(productId);
+            map.put("productInfo", productInfo);
+        }
+
+        //Search all categories
+        List<ProductCategory> categoryList = categoryService.findAll();
+        map.put("categoryList", categoryList);
+
+        return new ModelAndView("product/index", map);
     }
 }
