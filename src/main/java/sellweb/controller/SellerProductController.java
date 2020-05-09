@@ -1,10 +1,15 @@
 package sellweb.controller;
 
 import java.util.List;
+import javax.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import sellweb.dataobject.ProductCategory;
 import sellweb.dataobject.ProductInfo;
 import sellweb.exception.SellException;
+import sellweb.form.ProductForm;
 import sellweb.service.CategoryService;
 import sellweb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
+import sellweb.utils.KeyUtil;
 
 @Controller
 @RequestMapping("/seller/product")
@@ -102,5 +108,41 @@ public class SellerProductController {
         map.put("categoryList", categoryList);
 
         return new ModelAndView("product/index", map);
+    }
+
+    /**
+     * Save/Update
+     * @param form
+     * @param bindingResult
+     * @param map
+     * @return
+     */
+    @PostMapping("/save")
+    public ModelAndView save(@Valid ProductForm form,
+        BindingResult bindingResult,
+        Map<String, Object> map) {
+        if (bindingResult.hasErrors()) {
+            map.put("msg", bindingResult.getFieldError().getDefaultMessage());
+            map.put("url", "/sell/seller/product/index");
+            return new ModelAndView("common/error", map);
+        }
+
+        ProductInfo productInfo = new ProductInfo();
+        try {
+            if (!StringUtils.isEmpty(form.getProductId())) {
+                productInfo = productService.findOne(form.getProductId());
+            } else {
+                form.setProductId(KeyUtil.genUniqueKey());
+            }
+            BeanUtils.copyProperties(form, productInfo);
+            productService.save(productInfo);
+        } catch (SellException e) {
+            map.put("msg", e.getMessage());
+            map.put("url", "/sell/seller/product/index");
+            return new ModelAndView("common/error", map);
+        }
+
+        map.put("url", "/sell/seller/product/list");
+        return new ModelAndView("common/success", map);
     }
 }

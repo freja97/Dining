@@ -36,7 +36,7 @@ public class ProductInfo {
     /**
      * 0 represents available, 1 represents unavailable
      */
-    private Integer productStatus;
+    private Integer productStatus = ProductStatusEnum.UP.getCode();
 
     private Integer categoryType;
 
