@@ -1,5 +1,6 @@
 package sellweb.dataobject;
 
+import java.util.Date;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -23,6 +24,10 @@ public class ProductCategory {
     private String categoryName;
 
     private Integer categoryType;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     /**
      * Instantiates a new Product category.
