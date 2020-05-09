@@ -3,9 +3,9 @@ package sellweb.enums;
 import lombok.Getter;
 
 @Getter
-public enum ProductStatusEnum {
-    UP(0, "In stock"),
-    DOWN(1, "Out of stock");
+public enum ProductStatusEnum implements CodeEnum{
+    UP(0, "Available"),
+    DOWN(1, "Unavailable");
 
     private Integer code;
 
