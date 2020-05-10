@@ -1,8 +1,10 @@
 package sellweb.exception;
 
 
+import lombok.Data;
 import sellweb.enums.ResultEnum;
 
+@Data
 public class SellException extends RuntimeException{
 
     private Integer code;
