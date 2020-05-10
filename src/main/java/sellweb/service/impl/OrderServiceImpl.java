@@ -14,6 +14,7 @@ import sellweb.repository.OrderDetailRepository;
 import sellweb.repository.OrderMasterRepository;
 import sellweb.service.OrderService;
 import sellweb.service.ProductService;
+import sellweb.service.WebSocket;
 import sellweb.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +43,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+
+    @Autowired
+    private WebSocket webSocket;
 
     @Override
     @Transactional
@@ -78,6 +82,7 @@ public class OrderServiceImpl implements OrderService {
         ).collect(Collectors.toList());
         productService.decreaseStock(cartDTOList);
 
+        webSocket.sendMessage("New order");
         return orderDTO;
     }
 

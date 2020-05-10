@@ -79,5 +79,60 @@
     </div>
 </div>
 
+<#--Pop up message-->
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Notification
+                </h4>
+            </div>
+            <div class="modal-body">
+                You have a new order
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button onclick="location.reload()" type="button" class="btn btn-primary">Reload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+    var websocket = null;
+    if('WebSocket' in window) {
+        websocket = new WebSocket('ws://localhost:8080/sell/webSocket');
+    }else {
+        alert("This browser doesn't support WebSocket!");
+    }
+
+    websocket.onopen = function (event) {
+        console.log('Connected');
+    }
+
+    websocket.onclose = function (event) {
+        console.log('Disconnected');
+    }
+
+    websocket.onmessage = function (event) {
+        console.log('Receive a message:' + event.data)
+
+        $('#myModal').modal('show');
+    }
+
+    websocket.onerror = function () {
+        alert('websocket error！');
+    }
+
+    window.onbeforeunload = function () {
+        websocket.close();
+    }
+
+</script>
+
 </body>
 </html>
