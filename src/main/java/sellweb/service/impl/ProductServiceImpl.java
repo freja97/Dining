@@ -1,6 +1,9 @@
 package sellweb.service.impl;
 
 import javax.transaction.Transactional;
+import org.springframework.data.domain.Example;
+import sellweb.converter.ModelToExampleConverter;
+import sellweb.dataobject.ProductCategory;
 import sellweb.dataobject.ProductInfo;
 import sellweb.dto.CartDTO;
 import sellweb.enums.ProductStatusEnum;
@@ -24,7 +27,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductInfo findOne(String productId) {
-        return repository.findOne(productId);
+        ProductInfo model = new ProductInfo();
+        model.setProductId(productId);
+        Example<ProductInfo> orderMasterExample = new ModelToExampleConverter<ProductInfo>().convert(model, "productId");
+        return repository.findOne(orderMasterExample).orElse(null);
     }
 
     @Override
@@ -46,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void increaseStock(List<CartDTO> cartDTOList) {
         for (CartDTO cartDTO : cartDTOList) {
-            ProductInfo productInfo = repository.findOne(cartDTO.getProductId());
+            ProductInfo productInfo = this.findOne(cartDTO.getProductId());
             if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
@@ -59,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void decreaseStock(List<CartDTO> cartDTOList) {
         for (CartDTO cartDTO : cartDTOList) {
-            ProductInfo productInfo = repository.findOne(cartDTO.getProductId());
+            ProductInfo productInfo = this.findOne(cartDTO.getProductId());
             if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
@@ -74,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductInfo onSale(String productId) {
-        ProductInfo productInfo = repository.findOne(productId);
+        ProductInfo productInfo = this.findOne(productId);
         if (productInfo == null) {
             throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
         }
@@ -89,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductInfo offSale(String productId) {
-        ProductInfo productInfo = repository.findOne(productId);
+        ProductInfo productInfo = this.findOne(productId);
         if (productInfo == null) {
             throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
         }
