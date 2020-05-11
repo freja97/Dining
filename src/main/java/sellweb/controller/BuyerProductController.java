@@ -1,5 +1,6 @@
 package sellweb.controller;
 
+import org.springframework.cache.annotation.Cacheable;
 import sellweb.VO.ProductInfoVO;
 import sellweb.VO.ProductVO;
 import sellweb.VO.ResultVO;
@@ -29,6 +30,7 @@ public class BuyerProductController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
+    @Cacheable(cacheNames = "product", key = "123")
     public ResultVO list() {
         //1. search for all the available products
         List<ProductInfo> productInfoList = productService.findUpAll();

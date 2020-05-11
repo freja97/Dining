@@ -3,6 +3,8 @@ package sellweb.controller;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -124,6 +126,7 @@ public class SellerProductController {
      * @return
      */
     @PostMapping("/save")
+    @CacheEvict(cacheNames = "product", key= "123")
     public ModelAndView save(@Valid ProductForm form,
         BindingResult bindingResult,
         Map<String, Object> map) {
