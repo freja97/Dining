@@ -1,7 +1,6 @@
 package sellweb.repository;
 
 import org.springframework.data.domain.Example;
-import sellweb.converter.ModelToExampleConverter;
 import sellweb.dataobject.ProductCategory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,7 +25,7 @@ public class ProductCategoryRepositoryTest {
     public void findOneTest() {
         ProductCategory model = new ProductCategory();
         model.setCategoryId(1);
-        Example<ProductCategory> orderMasterExample = new ModelToExampleConverter<ProductCategory>().convert(model, "categoryId");
+        Example<ProductCategory> orderMasterExample = Example.of(model);
         ProductCategory productCategory = repository.findOne(orderMasterExample).orElse(null);
         System.out.println(productCategory.toString());
     }
@@ -36,7 +35,7 @@ public class ProductCategoryRepositoryTest {
     public void saveTest() {
         ProductCategory model = new ProductCategory();
         model.setCategoryId(5);
-        Example<ProductCategory> orderMasterExample = new ModelToExampleConverter<ProductCategory>().convert(model, "categoryId");
+        Example<ProductCategory> orderMasterExample = Example.of(model);
         ProductCategory productCategory = repository.findOne(orderMasterExample).orElse(null);
         productCategory.setCategoryType(5);
         ProductCategory result = repository.save(productCategory);

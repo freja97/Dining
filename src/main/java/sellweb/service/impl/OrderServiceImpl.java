@@ -1,10 +1,6 @@
 package sellweb.service.impl;
 
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
-import sellweb.converter.ModelToExampleConverter;
 import sellweb.converter.OrderMasterToOrderDTOConverter;
 import sellweb.dataobject.OrderDetail;
 import sellweb.dataobject.OrderMaster;
@@ -95,7 +91,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO findOne(String orderId) {
         OrderMaster model = new OrderMaster();
         model.setOrderId(orderId);
-        Example<OrderMaster> orderMasterExample = new ModelToExampleConverter<OrderMaster>().convert(model, "orderId");
+        model.setOrderStatus(null);
+        model.setPayStatus(null);
+        Example<OrderMaster> orderMasterExample = Example.of(model);
         OrderMaster orderMaster = orderMasterRepository.findOne(orderMasterExample).orElse(null);
         if (orderMaster == null) {
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);

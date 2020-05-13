@@ -1,8 +1,6 @@
 package sellweb.service.impl;
 
 import org.springframework.data.domain.Example;
-import sellweb.converter.ModelToExampleConverter;
-import sellweb.dataobject.OrderMaster;
 import sellweb.dataobject.ProductCategory;
 import sellweb.repository.ProductCategoryRepository;
 import sellweb.service.CategoryService;
@@ -21,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     public ProductCategory findOne(Integer categoryId) {
         ProductCategory model = new ProductCategory();
         model.setCategoryId(categoryId);
-        Example<ProductCategory> orderMasterExample = new ModelToExampleConverter<ProductCategory>().convert(model, "categoryId");
+        Example<ProductCategory> orderMasterExample = Example.of(model);
         return repository.findOne(orderMasterExample).orElse(null);
     }
 

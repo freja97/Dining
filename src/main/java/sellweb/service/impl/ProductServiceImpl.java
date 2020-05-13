@@ -2,8 +2,6 @@ package sellweb.service.impl;
 
 import javax.transaction.Transactional;
 import org.springframework.data.domain.Example;
-import sellweb.converter.ModelToExampleConverter;
-import sellweb.dataobject.ProductCategory;
 import sellweb.dataobject.ProductInfo;
 import sellweb.dto.CartDTO;
 import sellweb.enums.ProductStatusEnum;
@@ -29,7 +27,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductInfo findOne(String productId) {
         ProductInfo model = new ProductInfo();
         model.setProductId(productId);
-        Example<ProductInfo> orderMasterExample = new ModelToExampleConverter<ProductInfo>().convert(model, "productId");
+        model.setProductStatus(null);
+        Example<ProductInfo> orderMasterExample = Example.of(model);
         return repository.findOne(orderMasterExample).orElse(null);
     }
 
