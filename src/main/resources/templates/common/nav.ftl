@@ -24,9 +24,5 @@
                 <li><a href="/sell/seller/category/index">Add</a></li>
             </ul>
         </li>
-
-        <li>
-            <a href="/sell/seller/logout"><i class="fa fa-fw fa-list-alt"></i> Logout</a>
-        </li>
     </ul>
 </nav>
